@@ -62,7 +62,19 @@ var app = express();
  * 
  *      HTTP/1.1 200 OK
  *      [{
- *      "name": "France
+ *      "name": "France",
+ *      "continent": "Europe",
+ *      "population": "68,170,000",
+ *      "flag": "Red,White,Blue"
+ *      },
+ *      "name": "Germany",
+ *      "continent": "Europe",
+ *      "population": "84,480,000",
+ *      "flag": "Black,Red,Yellow"
+ *      },
+ * 
+ *      etc...
+ * 
  * "}]
  */
 app.get('/countries', function(req,res){
@@ -71,6 +83,31 @@ app.get('/countries', function(req,res){
     });
 });
 
+/**
+ * @api {get} /flagcolour Display all countries with white in their flag
+ * @apiVersion 1.0.0
+ * @apiGroup COUNTRIES
+ * @apiSuccess {String} Name of the country
+ * @apiSuccessExample {json} Success
+ * 
+ *      HTTP/1.1 200 OK
+ *      [{
+ *      "name": "France",
+ *      "continent": "Europe",
+ *      "population": "68,170,000",
+ *      "flag": "Red,White,Blue"
+ *      },
+ *      "name": "Peru",
+ *      "continent": "South America",
+ *      "population": "34,350,000",
+ *      "flag": "Red,White"
+ *      },
+ * 
+ * 
+ *      etc...
+ * 
+ * "}]
+ */
 app.get('/flagcolour', function(req,res){
     db.all("SELECT * FROM countries WHERE flag LIKE '%White%'", function(err,rows){
         res.jsonp(rows);
