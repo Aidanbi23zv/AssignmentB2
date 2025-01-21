@@ -1,6 +1,9 @@
 var sqlite3 = require('sqlite3').verbose();
 var db = new sqlite3.Database('Countries');
 
+var multer = require('multer');
+var upload = multer();
+
 db.serialize(function(){
     db.run("CREATE TABLE IF NOT EXISTS countries (name TEXT, continent TEXT, population TEXT, flag TEXT)");
 
@@ -50,7 +53,18 @@ db.serialize(function(){
 
 var express = require('express');
 var app = express();
-
+/**
+ * @api {get} /countries Display all countries
+ * @apiVersion 1.0.0
+ * @apiGroup COUNTRIES
+ * @apiSuccess {String} Name of the country
+ * @apiSuccessExample {json} Success
+ * 
+ *      HTTP/1.1 200 OK
+ *      [{
+ *      "name": "France
+ * "}]
+ */
 app.get('/countries', function(req,res){
     db.all("SELECT * FROM countries", function(err,rows){
         res.jsonp(rows);
@@ -61,6 +75,12 @@ app.get('/flagcolour', function(req,res){
     db.all("SELECT * FROM countries WHERE flag LIKE '%White%'", function(err,rows){
         res.jsonp(rows);
     });
+});
+
+app.use(function (req, res, next){
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
 });
 
 app.listen(2001);
