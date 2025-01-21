@@ -1,0 +1,8 @@
+{
+    "name": "Countries API docs",
+    "version": "1.0.0",
+    "description": "Official documentation of the countries API... built with Node and Express",
+    "template":{
+        "forceLanguage": "en"
+    }
+}
