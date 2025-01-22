@@ -158,6 +158,51 @@ app.post('/countries', upload.array(), function(req, res, next){
     );
 });
 
+/**
+ * @api {put} /countries/:name Update an existing country
+ * @apiVersion 1.0.0
+ * @apiGroup COUNTRIES
+ * @apiParam {string} name The name of the country (NAME IS CASE SENSITIVE WHEN ENETERING NAME IN URL)
+ * @apiParam {string} continent The (updated?) continent the country is on
+ * @apiParam {string} population The (updated?) countrys population
+ * @apiParam {string} flag The (updated?) colours on the countrys flag
+ * 
+ * @apiParamExample {json} Input
+ *  {
+ *   "name": "France",
+ *   "continent": "Europe",
+ *   "population": "70,000,000",
+ *   "flag": "Red,White,Blue"
+ *   }
+ * 
+ * @apiSuccessExample Success-Response:
+ *      HTTP/1.1 200 OK
+ */
+app.put('/countries/:name', upload.array(), function(req, res, next){
+    console.log(req.body.continent);
+    console.log(req.body.population);
+    console.log(req.body.flag);
+    let name = req.params.name;
+    let continent = req.body.continent;
+    let population = req.body.population;
+    let flag = req.body.flag;
+
+    db.run("UPDATE countries SET continent=?, population=?, flag=? WHERE name=?",
+        continent, population, flag, name,
+        function(error){
+            if(error){
+                console.err(error);
+                res.status(500);
+            } else {
+                res.status(201);
+            }
+            res.end();
+        }
+    );
+
+});
+
+
 app.use(function (req, res, next){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
