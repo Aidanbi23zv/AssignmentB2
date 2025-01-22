@@ -114,6 +114,50 @@ app.get('/flagcolour', function(req,res){
     });
 });
 
+/**
+ * @api {post} /countries/ Create a new country
+ * @apiVersion 1.0.0
+ * @apiGroup COUNTRIES
+ * @apiParam {string} name The name of the country
+ * @apiParam {string} continent The continent the country is on
+ * @apiParam {string} population The countrys population
+ * @apiParam {string} flag The colours on the countrys flag
+ * 
+ * @apiParamExample {json} Input
+ *  {
+ *   "name": "Belgium",
+ *   "continent": "Europe",
+ *   "population": "11,820,000",
+ *   "flag": "Black,Yellow,Red"
+ *   }
+ * 
+ * @apiSuccessExample Success-Response:
+ *      HTTP/1.1 200 OK
+ */
+app.post('/countries', upload.array(), function(req, res, next){
+    console.log(req.body.name);
+    console.log(req.body.continent);
+    console.log(req.body.population);
+    console.log(req.body.flag);
+    let name = req.body.name;
+    let continent = req.body.continent;
+    let population = req.body.population;
+    let flag = req.body.flag;
+
+    db.run("INSERT INTO countries (name, continent, population, flag) VALUES (?, ?, ?, ?)",
+        name, continent, population, flag,
+        function (error){
+            if (error){
+                console.err(error);
+                res.status(500);
+            } else {
+                res.status(201);
+            }
+            res.end();
+        }
+    );
+});
+
 app.use(function (req, res, next){
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
