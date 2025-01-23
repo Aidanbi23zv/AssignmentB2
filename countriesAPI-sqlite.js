@@ -202,6 +202,32 @@ app.put('/countries/:name', upload.array(), function(req, res, next){
 
 });
 
+/**
+ * @api {delete} /countries/name Delete a country
+ * @apiVersion 1.0.0
+ * @apiGroup COUNTRIES
+ * 
+ * @apiParam {name} name Conutry identifier
+ * 
+ * @apiSuccessExample Success-Response:
+ *      HTTP/1.1 200 OK
+ */
+app.delete('/countries/:name', function(req,res,next){
+    let name = req.params.name;
+    db.run("DELETE FROM countries WHERE name=?",
+        name,
+        function(error){
+            if(error){
+                console.err(error);
+                res.status(500);
+            } else {
+                res.status(201);
+            }
+            res.send();
+        }
+    );
+});
+
 
 app.use(function (req, res, next){
     res.header("Access-Control-Allow-Origin", "*");
