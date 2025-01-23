@@ -4,7 +4,8 @@ var db = new sqlite3.Database('Countries');
 var multer = require('multer');
 var upload = multer();
 
-db.serialize(function(){
+//INITIAL INSERT COMMANDS FOR DEFAULT DATABASE
+/*db.serialize(function(){
     db.run("CREATE TABLE IF NOT EXISTS countries (name TEXT, continent TEXT, population TEXT, flag TEXT)");
 
     db.run("DELETE FROM countries");
@@ -49,7 +50,7 @@ db.serialize(function(){
 
     db.run("INSERT INTO countries (name, continent, population, flag) VALUES (?,?,?,?)", "Indonesia", "Asia", "277,500,000", "Red,White");
 
-});
+});*/
 
 var express = require('express');
 var app = express();
@@ -207,7 +208,7 @@ app.put('/countries/:name', upload.array(), function(req, res, next){
  * @apiVersion 1.0.0
  * @apiGroup COUNTRIES
  * 
- * @apiParam {name} name Conutry identifier
+ * @apiParam {name} name Conutry identifier (Expected in the URL)
  * 
  * @apiSuccessExample Success-Response:
  *      HTTP/1.1 200 OK
@@ -223,7 +224,7 @@ app.delete('/countries/:name', function(req,res,next){
             } else {
                 res.status(201);
             }
-            res.send();
+            res.end();
         }
     );
 });
