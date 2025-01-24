@@ -4,10 +4,12 @@ const path = require('path');
 fixture('Flag Data Exists')
     .page('file:///home/bi23zv/AssignmentB2/AssignmentB2/testing.html');
 
-    test('Data Exists in Table', async t => {
-        const tableRows = Selector('table tbody tr');
-
+    test('Correct Page', async t => {
         await t
-        .expect(tableRows.count).gt(0);
+        const tableRows = Selector('table tbody tr');
+    
+        // Assert there is at least one row in the table
+        await t
+            .expect(tableRows.count).gt(0);
 
     });
