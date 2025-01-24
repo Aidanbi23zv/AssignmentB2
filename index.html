@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countries with White in Their Flag</title>
+    <title>Countries Database</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -38,8 +38,8 @@
     </style>
 </head>
 <body>
-    <h1>Countries with White in Their Flag</h1>
-    <a href="index.html">All Countries</a>
+    <h1>Countries Database</h1>
+    <a href="testing.html">All Countries With White in Their Flags</a>
     <table id="countries-table">
         <thead>
             <tr>
@@ -54,7 +54,7 @@
     </table>
 
     <script>
-        fetch('http://localhost:2001/flagcolour') //Other fetch reference used: https://www.geeksforgeeks.org/how-to-use-the-javascript-fetch-api-to-get-data/
+        fetch('http://localhost:2001/countries')
             .then(response => {
                 return response.json();
             })
